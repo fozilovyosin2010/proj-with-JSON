@@ -1,6 +1,5 @@
 import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Layout from "./pages/Layout/Layout";
 import Albums from "./pages/Albums/Albums";
 import Comments from "./pages/Coments/Coments";
 import Photos from "./pages/Photos/Photos";
@@ -9,6 +8,7 @@ import Todos from "./pages/Todos/Todos";
 import Users from "./pages/Users/Users";
 import Home from "./pages/Home/Home";
 import PageId from "./pages/PageId/PageId";
+import Layout from "./Layout/Layout";
 
 const App = () => {
   let router = createBrowserRouter([
@@ -25,12 +25,16 @@ const App = () => {
           element: <Albums />,
         },
         {
+          path: "posts",
+          element: <Posts />,
+        },
+        {
           path: "coments",
           element: <Comments />,
         },
         {
           path: "photos",
-          element: <Posts />,
+          element: <Photos />,
         },
         {
           path: "todos",
