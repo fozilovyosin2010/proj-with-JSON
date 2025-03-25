@@ -4,7 +4,15 @@ import Typography from "@mui/material/Typography";
 import Skeleton from "@mui/material/Skeleton";
 import Grid from "@mui/material/Grid";
 
-const Skeleton2 = ({ type }) => {
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+
+const darkTheme = createTheme({
+  palette: {
+    mode: "dark", // Enables dark mode
+  },
+});
+
+const Skeleton2 = ({ type, width, center }) => {
   // "h1", "h3", "body1", "caption"
   const variants = [type];
   function TypographyDemo(props) {
@@ -26,11 +34,23 @@ const Skeleton2 = ({ type }) => {
   };
 
   return (
-    <Grid container spacing={8}>
-      <Grid item xs>
-        <TypographyDemo className="bg-[#ddd]" loading />
+    <ThemeProvider theme={darkTheme}>
+      <Grid container spacing={8}>
+        {center ? (
+          <Grid item xs>
+            <TypographyDemo />
+          </Grid>
+        ) : null}
+        <Grid item xs>
+          <TypographyDemo className="bg-[#ddd]" loading />
+        </Grid>
+        {width || center ? (
+          <Grid item xs>
+            <TypographyDemo />
+          </Grid>
+        ) : null}
       </Grid>
-    </Grid>
+    </ThemeProvider>
   );
 };
 

@@ -13,7 +13,10 @@ const Home = () => {
   let [AlbData, setAlbData] = useState([]);
 
   let [photosData, setPhotosData] = useState([]);
+
   let [todosData, setTodosData] = useState([]);
+
+  let [usersData, setUsersData] = useState([]);
 
   let getPosts = async () => {
     setLoader(true);
@@ -86,12 +89,28 @@ const Home = () => {
     }
   };
 
+  let getUsers = async () => {
+    setLoader(true);
+    try {
+      let { data } = await axios.get(
+        "https://jsonplaceholder.typicode.com/users"
+      );
+      setUsersData(data.slice(0, 5));
+      setLoader(false);
+      console.log(data);
+    } catch (error) {
+      console.error(error);
+      setLoader(false);
+    }
+  };
+
   useEffect(() => {
     getPosts();
     getComments();
     getAlbums();
     getPhotos();
     getTodos();
+    getUsers();
   }, []);
 
   // let itemsData = [
@@ -125,7 +144,9 @@ const Home = () => {
         ) : null}
 
         <div className="flex justify-center py-2">
-          <Button variant="outlined">See more posts</Button>
+          <Link to={"/posts"}>
+            <Button variant="outlined">See more posts</Button>
+          </Link>
         </div>
       </div>
       <div className="sec2">
@@ -149,11 +170,13 @@ const Home = () => {
         ) : null}
 
         <div className="flex justify-center py-2">
-          <Button variant="outlined">See more posts</Button>
+          <Link to={"/albums"}>
+            <Button variant="outlined">See more albums</Button>
+          </Link>
         </div>
       </div>
       <div className="sec3">
-        <div className="text-[20px] font-bold text-center py-2">Coments</div>
+        <div className="text-[20px] font-bold text-center py-2">Comments</div>
         <div className="flex flex-col gap-2">
           {comsData.map((e) => {
             return (
@@ -178,7 +201,9 @@ const Home = () => {
         </div>
 
         <div className="flex justify-center py-2">
-          <Button variant="outlined">See more comments</Button>
+          <Link to={"/comments"}>
+            <Button variant="outlined">See more comments</Button>
+          </Link>
         </div>
       </div>
       <div className="sec4">
@@ -190,7 +215,7 @@ const Home = () => {
                 key={e.id}
                 className="flex gap-[20px] max-w-full items-center duration-300 dark:hover:border-[#fff] hover:border-black dark:border-[#5e5454] rounded-md font-[400] border p-3 text-[16px]"
               >
-                <div className="w-[40px] h-[40px] rounded-[100px] dark:text-black text-[#fff] bg-[#ccc] flex items-center justify-center font-medium">
+                <div className="w-[40px] h-[40px] rounded-[100px] dark:text-black text-[#fff] bg-[#ccc] flex items-center text-[20px] justify-center ">
                   R
                 </div>
 
@@ -215,10 +240,13 @@ const Home = () => {
         </div>
 
         <div className="flex justify-center py-2">
-          <Button variant="outlined">See more photos</Button>
+          <Link to={"/photos"}>
+            <Button variant="outlined">See more photos</Button>
+          </Link>
         </div>
       </div>
       <div className="sec5">
+        <div className="text-[20px] font-bold text-center py-2">Todos</div>
         {todosData.map((e) => {
           return (
             <div key={e.id} className="py-2 flex gap-3">
@@ -235,6 +263,63 @@ const Home = () => {
             </div>
           );
         })}
+
+        {loader || todosData == [] ? (
+          <>
+            <Loader type={"body"} />
+            <Loader type={"body"} />
+            <Loader type={"body"} />
+            <Loader type={"body"} />
+            <Loader type={"body"} />
+          </>
+        ) : null}
+
+        <div className="flex justify-center py-2">
+          <Link to={"/todos"}>
+            <Button variant="outlined">See more todos</Button>
+          </Link>
+        </div>
+      </div>
+      <div className="sec6">
+        <div className="text-[20px] font-bold text-center py-2">Users</div>
+        <div className="flex flex-col gap-2">
+          {usersData.map((e) => {
+            return (
+              <div
+                key={e.id}
+                className="flex gap-[20px] max-w-full items-center duration-300 dark:hover:border-[#fff] hover:border-black dark:border-[#5e5454] rounded-md font-[400] border p-3 text-[16px]"
+              >
+                <div className="w-[40px] h-[40px] rounded-[100px] dark:text-black text-[#fff] bg-[#ccc] flex items-center text-[20px] justify-center ">
+                  {e.name.at(0)}
+                </div>
+
+                <div className="flex flex-col">
+                  <div className="flex flex-col dark:text-[#ccc]">
+                    <div className="font-medium">{e.name}</div>
+                    <div className="text-[#3f3939] dark:text-[#ccc]">
+                      {e.email}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+          {loader || usersData == [] ? (
+            <>
+              <Loader type={"h3"} />
+              <Loader type={"h3"} />
+              <Loader type={"h3"} />
+              <Loader type={"h3"} />
+              <Loader type={"h3"} />
+            </>
+          ) : null}
+        </div>
+
+        <div className="flex justify-center py-2">
+          <Link to={"/users"}>
+            <Button variant="outlined">See more users</Button>
+          </Link>
+        </div>
       </div>
     </div>
   );
