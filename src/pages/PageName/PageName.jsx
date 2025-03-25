@@ -127,8 +127,7 @@ const PageName = () => {
                       {e.title}
                     </div>
                   );
-                }
-                if (params.page == "comments") {
+                } else if (params.page == "comments") {
                   return (
                     <div
                       key={e.id}
@@ -136,6 +135,52 @@ const PageName = () => {
                     >
                       <div>{e.name}</div>
                       <div>{e.email}</div>
+                    </div>
+                  );
+                } else if (params.page == "photos" || params.page == "users") {
+                  return (
+                    <div
+                      key={e.id}
+                      className="flex gap-[20px] max-w-full items-center duration-300 dark:hover:border-[#fff] hover:border-black dark:border-[#5e5454] rounded-md font-[400] border p-3 text-[16px]"
+                    >
+                      <div className="w-[40px] h-[40px] rounded-[100px] dark:text-black text-[#fff] bg-[#ccc] flex items-center text-[20px] justify-center ">
+                        {params.page == "photos" ? "R" : e.name.at(0)}
+                      </div>
+
+                      <div className="flex flex-col">
+                        {params.page == "photos" ? (
+                          <div>Item {e.id}</div>
+                        ) : (
+                          <div className="font-medium">{e.name}</div>
+                        )}
+                        {params.page == "photos" ? (
+                          <div className="max-w-[250px] dark:text-[#ccc]">
+                            {e.title}
+                          </div>
+                        ) : (
+                          <div className="text-[#3f3939] dark:text-[#ccc]">
+                            {e.email}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  );
+                } else if (params.page == "todos") {
+                  return (
+                    <div key={e.id} className="py-2 flex gap-3">
+                      <input type="checkbox" checked={e.completed} />
+                      <div
+                        style={
+                          e.completed
+                            ? {
+                                textDecoration: "line-through",
+                                color: "#2c2ce3",
+                              }
+                            : { textDecoration: "none" }
+                        }
+                      >
+                        {e.title}
+                      </div>
                     </div>
                   );
                 }

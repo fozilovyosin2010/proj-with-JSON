@@ -108,7 +108,7 @@ const Layout = () => {
                         }, 300);
                       }}
                       className="py-2 text-center"
-                      to={e}
+                      to={e.toLowerCase()}
                       key={i}
                     >
                       {e}

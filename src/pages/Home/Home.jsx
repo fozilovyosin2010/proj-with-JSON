@@ -64,7 +64,7 @@ const Home = () => {
     setLoader(true);
     try {
       let { data } = await axios.get(
-        "https://jsonplaceholder.typicode.com/albums"
+        "https://jsonplaceholder.typicode.com/photos"
       );
       setPhotosData(data.slice(0, 5));
       setLoader(false);
@@ -215,7 +215,7 @@ const Home = () => {
                 key={e.id}
                 className="flex gap-[20px] max-w-full items-center duration-300 dark:hover:border-[#fff] hover:border-black dark:border-[#5e5454] rounded-md font-[400] border p-3 text-[16px]"
               >
-                <div className="w-[40px] h-[40px] rounded-[100px] dark:text-black text-[#fff] bg-[#ccc] flex items-center text-[20px] justify-center ">
+                <div className="w-[40px] h-[40px]  max-w-full min-h-[30px] rounded-[100px] dark:text-black text-[#fff] bg-[#ccc] flex items-center text-[20px] justify-center ">
                   R
                 </div>
 
