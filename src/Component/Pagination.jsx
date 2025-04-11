@@ -5,14 +5,17 @@ import Stack from "@mui/material/Stack";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useDispatch, useSelector } from "react-redux";
 import { change } from "../reducer/pageF";
+import useDarkSide from "../hook/useDarkSide";
 
 const Pagination = ({ length }) => {
   let page = useSelector((e) => e.pageNum.val);
   let disputch = useDispatch();
 
+  let DarkMode = useSelector((e) => e.isDarkMode.val);
+
   const darkTheme = createTheme({
     palette: {
-      mode: "dark", // Enables dark mode
+      mode: DarkMode ? "dark" : "light",
     },
   });
 

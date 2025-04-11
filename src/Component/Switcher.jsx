@@ -1,14 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import useDarkSide from "../hook/useDarkSide";
-// import d from "../hook/darkSide";
+import { useDispatch, useSelector } from "react-redux";
+import { toggle } from "../reducer/darkF";
+
 const Switcher = () => {
   let [color, setTheme] = useDarkSide();
-  //   let [dark, setDark] = useState(color == "light");
+
+  let isDarkMode = useSelector((e) => e.isDarkMode.val);
+  let disputch = useDispatch();
 
   return (
     <div className="border  border-[#3e81f5] p-1 flex gap-1 items-center rounded-[50px]">
       <button
-        onClick={() => setTheme("light")}
+        onClick={() => {
+          setTheme("light");
+          disputch(toggle(true));
+        }}
         className="bg-[#3e81f5] duration-[0.5s] dark:hover:bg-[#96d5e8ef] dark:text-[#3e81f5] dark:bg-transparent rounded-[50px] p-1"
       >
         <svg
@@ -41,7 +48,10 @@ const Switcher = () => {
       </button>
 
       <button
-        onClick={() => setTheme("dark")}
+        onClick={() => {
+          setTheme("dark");
+          disputch(toggle(false));
+        }}
         className="bg-transparent duration-[0.5s] dark:bg-[#3e81f5] hover:bg-[#96d5e8ef] hover:text-[#fff] dark:text-[#fff] text-[#3e81f5] rounded-[50px] p-1"
       >
         <svg

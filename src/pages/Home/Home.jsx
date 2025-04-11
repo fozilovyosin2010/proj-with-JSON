@@ -22,13 +22,18 @@ const Home = () => {
     setLoader(true);
     try {
       let { data } = await axios.get(
-        "https://jsonplaceholder.typicode.com/posts"
+        "https://jsonplaceholder.typicode.com/posts?_limit=5"
       );
-      setPostData(data.slice(0, 5));
+      setPostData(data);
       setLoader(false);
     } catch (error) {
       console.error(error);
-      setLoader(false);
+
+      if (error.message == "Network Error") {
+        setLoader(true);
+      } else {
+        setLoader(false);
+      }
     }
   };
 
@@ -36,13 +41,18 @@ const Home = () => {
     setLoader(true);
     try {
       let { data } = await axios.get(
-        "https://jsonplaceholder.typicode.com/comments"
+        "https://jsonplaceholder.typicode.com/comments?_limit=5"
       );
-      setComsData(data.slice(0, 5));
+      setComsData(data);
       setLoader(false);
     } catch (error) {
       console.error(error);
-      setLoader(false);
+
+      if (error.message == "Network Error") {
+        setLoader(true);
+      } else {
+        setLoader(false);
+      }
     }
   };
 
@@ -50,13 +60,18 @@ const Home = () => {
     setLoader(true);
     try {
       let { data } = await axios.get(
-        "https://jsonplaceholder.typicode.com/albums"
+        "https://jsonplaceholder.typicode.com/albums?_limit=5"
       );
-      setAlbData(data.slice(0, 5));
+      setAlbData(data);
       setLoader(false);
     } catch (error) {
       console.error(error);
-      setLoader(false);
+
+      if (error.message == "Network Error") {
+        setLoader(true);
+      } else {
+        setLoader(false);
+      }
     }
   };
 
@@ -64,13 +79,18 @@ const Home = () => {
     setLoader(true);
     try {
       let { data } = await axios.get(
-        "https://jsonplaceholder.typicode.com/photos"
+        "https://jsonplaceholder.typicode.com/photos?_limit=5"
       );
-      setPhotosData(data.slice(0, 5));
+      setPhotosData(data);
       setLoader(false);
     } catch (error) {
       console.error(error);
-      setLoader(false);
+
+      if (error.message == "Network Error") {
+        setLoader(true);
+      } else {
+        setLoader(false);
+      }
     }
   };
 
@@ -78,14 +98,18 @@ const Home = () => {
     setLoader(true);
     try {
       let { data } = await axios.get(
-        "https://jsonplaceholder.typicode.com/todos"
+        "https://jsonplaceholder.typicode.com/todos?_limit=5"
       );
-      setTodosData(data.slice(0, 5));
+      setTodosData(data);
       setLoader(false);
-      console.log(data);
     } catch (error) {
       console.error(error);
-      setLoader(false);
+
+      if (error.message == "Network Error") {
+        setLoader(true);
+      } else {
+        setLoader(false);
+      }
     }
   };
 
@@ -93,14 +117,18 @@ const Home = () => {
     setLoader(true);
     try {
       let { data } = await axios.get(
-        "https://jsonplaceholder.typicode.com/users"
+        "https://jsonplaceholder.typicode.com/users?_limit=5"
       );
-      setUsersData(data.slice(0, 5));
+      setUsersData(data);
       setLoader(false);
-      console.log(data);
     } catch (error) {
       console.error(error);
-      setLoader(false);
+
+      if (error.message == "Network Error") {
+        setLoader(true);
+      } else {
+        setLoader(false);
+      }
     }
   };
 
@@ -119,6 +147,7 @@ const Home = () => {
   //   { name: "Albums", obj: comsData, val: ["title"] },
   // ];
 
+  // start from skeletons!
   return (
     <div className="px-[20px] section">
       <div className="sec1">
@@ -230,11 +259,11 @@ const Home = () => {
           })}
           {loader || comsData == [] ? (
             <>
-              <Loader type={"h3"} />
-              <Loader type={"h3"} />
-              <Loader type={"h3"} />
-              <Loader type={"h3"} />
-              <Loader type={"h3"} />
+              <Loader type={"h1"} />
+              <Loader type={"h1"} />
+              <Loader type={"h1"} />
+              <Loader type={"h1"} />
+              <Loader type={"h1"} />
             </>
           ) : null}
         </div>
@@ -306,11 +335,11 @@ const Home = () => {
           })}
           {loader || usersData == [] ? (
             <>
-              <Loader type={"h3"} />
-              <Loader type={"h3"} />
-              <Loader type={"h3"} />
-              <Loader type={"h3"} />
-              <Loader type={"h3"} />
+              <Loader type={"h1"} />
+              <Loader type={"h1"} />
+              <Loader type={"h1"} />
+              <Loader type={"h1"} />
+              <Loader type={"h1"} />
             </>
           ) : null}
         </div>

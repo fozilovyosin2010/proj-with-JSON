@@ -41,7 +41,7 @@ const Layout = () => {
   }, [toggle]);
   return (
     <div className="min-h-screen flex flex-col dark:bg-[#000000] dark:text-[#fff]">
-      <div className="header sticky top-0 duration-300 backdrop-blur-[10px]  z-20  text-[16px] font-medium border-b-[1px] border-b-[#ccc] dark:bg-[#000000cc] p-2 dark:text-[#fff]">
+      <div className="header sticky top-0 duration-300 backdrop-blur-[10px]  z-20  text-[16px] font-medium border-b-[1px] border-b-[#ccc] dark:bg-[#00000038] p-2 dark:text-[#fff]">
         <div className="section items-center flex justify-between">
           <Link
             onClick={() => {
@@ -60,7 +60,7 @@ const Layout = () => {
             {links.map((e, i) => {
               return (
                 <Link
-                  className="relative after:content-[''] after:w-full after:h-[3px] dark:after:bg-[#fff] after:bg-black after:absolute after:left-0 after:bottom-[-5px] after:duration-[0.3s] after:scale-x-[0] hover:after:scale-x-[1]"
+                  className="relative after:content-[''] after:w-full after:h-[2px] dark:after:bg-[#fff] after:bg-black after:absolute after:left-0 after:bottom-[-5px] after:duration-[0.3s] after:scale-x-[0] hover:after:scale-x-[1]"
                   key={i}
                   to={`${e.toLowerCase()}`}
                 >

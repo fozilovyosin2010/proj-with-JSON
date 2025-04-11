@@ -5,6 +5,7 @@ import Skeleton from "@mui/material/Skeleton";
 import Grid from "@mui/material/Grid";
 
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { useSelector } from "react-redux";
 
 const darkTheme = createTheme({
   palette: {
@@ -13,6 +14,8 @@ const darkTheme = createTheme({
 });
 
 const Skeleton2 = ({ type, width, center }) => {
+  let isDarkMode = useSelector((e) => e.isDarkMode.val);
+
   // "h1", "h3", "body1", "caption"
   const variants = [type];
   function TypographyDemo(props) {
@@ -34,23 +37,43 @@ const Skeleton2 = ({ type, width, center }) => {
   };
 
   return (
-    <ThemeProvider theme={darkTheme}>
-      <Grid container spacing={8}>
-        {center ? (
-          <Grid item xs>
-            <TypographyDemo />
+    <div>
+      {isDarkMode ? (
+        <ThemeProvider theme={darkTheme}>
+          <Grid container spacing={8}>
+            {center ? (
+              <Grid item xs>
+                <TypographyDemo />
+              </Grid>
+            ) : null}
+            <Grid item xs>
+              <TypographyDemo className="bg-[#ddd]" loading />
+            </Grid>
+            {width || center ? (
+              <Grid item xs>
+                <TypographyDemo />
+              </Grid>
+            ) : null}
           </Grid>
-        ) : null}
-        <Grid item xs>
-          <TypographyDemo className="bg-[#ddd]" loading />
+        </ThemeProvider>
+      ) : (
+        <Grid container spacing={8}>
+          {center ? (
+            <Grid item xs>
+              <TypographyDemo />
+            </Grid>
+          ) : null}
+          <Grid item xs>
+            <TypographyDemo className="bg-[#ddd]" loading />
+          </Grid>
+          {width || center ? (
+            <Grid item xs>
+              <TypographyDemo />
+            </Grid>
+          ) : null}
         </Grid>
-        {width || center ? (
-          <Grid item xs>
-            <TypographyDemo />
-          </Grid>
-        ) : null}
-      </Grid>
-    </ThemeProvider>
+      )}
+    </div>
   );
 };
 

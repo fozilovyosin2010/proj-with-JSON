@@ -10,5 +10,5 @@ export const pageFind = createSlice({
   },
 });
 
-export const { change } = pageFind.actions;
+export const { change, add } = pageFind.actions;
 export default pageFind.reducer;
