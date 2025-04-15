@@ -21,9 +21,8 @@ const PageId = () => {
   };
 
   useEffect(() => {
-    // getParamsId(params.page, params.id);
+    getParamsId(params.page, params.id);
   }, []);
-
 
   return (
     <div>

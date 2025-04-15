@@ -17,16 +17,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Skeleton2 from "../../Component/Skeleton";
 import Pagination from "../../Component/Pagination";
 import { useDispatch, useSelector } from "react-redux";
-import { add, change } from "../../reducer/pageF";
-import { FormLabel, Input } from "@mui/material";
-
-const darkTheme = createTheme({
-  palette: {
-    mode: "dark", // Enables dark mode
-  },
-});
-
-let keyFinder = [{ page: "posts", obj: ["val"] }];
+import { change } from "../../reducer/pageF";
 
 const PageName = () => {
   let params = useParams();
@@ -39,7 +30,15 @@ const PageName = () => {
 
   let location = useLocation();
 
-  let isDarkMode = useSelector((e) => e.isDarkMode.val);
+  let pages = ["/posts", "/albums", "/comments", "/photos", "/todos", "/users"];
+  let [not4Mod, setNot4Mod] = useState(false);
+
+  useEffect(() => {
+    if (!pages.includes(location.pathname)) {
+      setLoader(false);
+      console.log(false);
+    }
+  }, [location]);
 
   ///
 
@@ -47,11 +46,8 @@ const PageName = () => {
   let [searchiData, setSearchiData] = useState([]);
 
   let [loader, setLoader] = useState(false);
-  let [loadTime, setLoadTime] = useState(false);
 
   let [dataLnum, setDataLnum] = useState(0);
-
-  let [inpSearch, setInpSearch] = useState("");
 
   let getPage = async (pages) => {
     setLoader(true);
@@ -64,12 +60,17 @@ const PageName = () => {
       setSearchiData(data);
       setLoader(false);
       setDataLnum(data.length);
+      dispatch(change(1));
     } catch (error) {
       console.error(error);
       if (error.message == "Network Error") {
         setLoader(true);
+      } else if (error.message == "Request failed with status code 404") {
+        setNot4Mod(true);
+        setLoader(false);
       } else {
         setLoader(false);
+        setNot4Mod(false);
       }
     }
   };
@@ -81,7 +82,6 @@ const PageName = () => {
   useEffect(() => {
     dispatch(change(1));
     setVal(10);
-    setLoadTime(false);
     getPage(params.page);
   }, [location]);
 
@@ -94,7 +94,8 @@ const PageName = () => {
   const handleChangeCheckVal = (event) => {
     let str = event.target.value;
     setCheckVal(str);
-    if (str == "") {
+
+    if (str == "All") {
       getPage(params.page);
     } else {
       let arr;
@@ -140,69 +141,84 @@ const PageName = () => {
             e.email.toLowerCase().includes(str.toLowerCase().trim())
           );
         } else if (params.page == "todos") {
-          return (
-            e.title.toLowerCase().includes(str.toLowerCase().trim()) &&
-            e.completed == checkVal
-          );
+          if (e.completed == checkVal) {
+            return (
+              e.title.toLowerCase().includes(str.toLowerCase().trim()) &&
+              e.completed == checkVal
+            );
+          } else if (checkVal == "All") {
+            return e.title.toLowerCase().includes(str.toLowerCase().trim());
+          }
         }
       });
-
-      console.log(searchiData);
 
       dispatch(change(1));
 
       setDataLnum(arr.length);
       setPageData(arr);
+      if (arr.length == 0) {
+        setLoader(true);
+      } else {
+        setLoader(false);
+      }
     }
   }
+
+  useEffect(() => {
+    if (pageNum * val > dataLnum) {
+      dispatch(change(Math.ceil(dataLnum / val)));
+    }
+  }, [pageNum, val]);
 
   return (
     <div className="section m-[0_auto] p-[10px_30px]">
       <ThemeProvider theme={darkTheme}>
-        <Box
-          sx={{ maxWidth: "100%" }}
-          className="flex justify-between items-center"
-        >
-          <TextField
-            onChange={(e) => inpChange(e.target.value)}
-            fullWidth
-            label="query"
-            id="fullWidth"
-            size="small"
-          />
-          {params.page !== "users" ? (
-            <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
-              <InputLabel id="demo-select-small-label">Items</InputLabel>
-              <Select
-                labelId="demo-select-small-label"
-                id="demo-select-small"
-                value={val}
-                label="items"
-                onChange={handleChangeVal}
-              >
-                <MenuItem value={10}>10</MenuItem>
-                <MenuItem value={20}>20</MenuItem>
-                <MenuItem value={30}>30</MenuItem>
-              </Select>
-            </FormControl>
-          ) : null}
-          {params.page == "todos" ? (
-            <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
-              <InputLabel id="demo-select-small-label">Completed</InputLabel>
-              <Select
-                labelId="demo-select-small-label"
-                id="demo-select-small"
-                value={checkVal}
-                label="items"
-                onChange={handleChangeCheckVal}
-              >
-                <MenuItem value={"All"}>All</MenuItem>
-                <MenuItem value={true}>True</MenuItem>
-                <MenuItem value={false}>False</MenuItem>
-              </Select>
-            </FormControl>
-          ) : null}
-        </Box>
+        {not4Mod ? null : (
+          <Box
+            sx={{ maxWidth: "100%" }}
+            className="flex justify-between items-center"
+          >
+            <TextField
+              onChange={(e) => inpChange(e.target.value)}
+              fullWidth
+              label="query"
+              id="fullWidth"
+              size="small"
+            />
+            {params.page !== "users" ? (
+              <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
+                <InputLabel id="demo-select-small-label">Items</InputLabel>
+                <Select
+                  labelId="demo-select-small-label"
+                  id="demo-select-small"
+                  value={val}
+                  label="items"
+                  onChange={handleChangeVal}
+                >
+                  <MenuItem value={10}>10</MenuItem>
+                  <MenuItem value={20}>20</MenuItem>
+                  <MenuItem value={30}>30</MenuItem>
+                </Select>
+              </FormControl>
+            ) : null}
+            {params.page == "todos" ? (
+              <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
+                <InputLabel id="demo-select-small-label">Completed</InputLabel>
+                <Select
+                  labelId="demo-select-small-label"
+                  id="demo-select-small"
+                  value={checkVal}
+                  label="items"
+                  onChange={handleChangeCheckVal}
+                >
+                  <MenuItem value={"All"}>All</MenuItem>
+                  <MenuItem value={true}>True</MenuItem>
+                  <MenuItem value={false}>False</MenuItem>
+                </Select>
+              </FormControl>
+            ) : null}
+          </Box>
+        )}
       </ThemeProvider>
       <div className="mt-[10px]">
         <div className="sec1">
@@ -301,9 +317,7 @@ const PageName = () => {
             </div>
           )}
 
-          {loader ||
-          pageData == [] ||
-          pageData.slice(pageNum * val - val, pageNum * val).length == 0 ? (
+          {loader ? (
             <div className="flex flex-col gap-2">
               <Skeleton2
                 type={
@@ -419,10 +433,22 @@ const PageName = () => {
             </div>
           ) : null}
         </div>
-        {/* Math.ceil(dataLnum / val) */}
+
+        {not4Mod ? (
+          <div className="  section max-w-full border-[2px] ">
+            <div className="flex justify-center flex-col  p-[50px] items-center">
+              <div className="font-black text-[28px] max-w-[400px] text-center">
+                404 Not Found!
+              </div>
+              <div className="font-medium text-center">
+                You've followed to an incorrect link!
+              </div>
+            </div>
+          </div>
+        ) : null}
         {loader ? null : (
           <div className="mt-[20px] flex justify-center">
-            <Pagination length={Math.ceil(dataLnum / val)} />
+            {not4Mod ? null : <Pagination length={Math.ceil(dataLnum / val)} />}
           </div>
         )}
       </div>

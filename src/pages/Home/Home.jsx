@@ -180,13 +180,15 @@ const Home = () => {
       </div>
       <div className="sec2">
         <div className="text-[20px] font-bold text-center py-2">Albums</div>
-        {AlbData.map((e) => {
-          return (
-            <div key={e.id} className="underline">
-              {e.title}
-            </div>
-          );
-        })}
+        <div className="flex flex-col">
+          {AlbData.map((e) => {
+            return (
+              <Link to={`/albums/${e.id}`} key={e.id} className="underline">
+                {e.title}
+              </Link>
+            );
+          })}
+        </div>
 
         {loader || AlbData == [] ? (
           <>
@@ -209,13 +211,14 @@ const Home = () => {
         <div className="flex flex-col gap-2">
           {comsData.map((e) => {
             return (
-              <div
+              <Link
+                to={`/comments/${e.id}`}
                 key={e.id}
                 className="flex duration-300 dark:hover:border-[#fff] hover:border-black dark:border-[#5e5454] flex-col rounded-md font-[400] border p-3 text-[16px]"
               >
                 <div>{e.name}</div>
                 <div>{e.email}</div>
-              </div>
+              </Link>
             );
           })}
           {loader || comsData == [] ? (
@@ -240,7 +243,8 @@ const Home = () => {
         <div className="flex flex-col gap-2">
           {photosData.map((e) => {
             return (
-              <div
+              <Link
+                to={`/photos/${e.id}`}
                 key={e.id}
                 className="flex gap-[20px] max-w-full items-center duration-300 dark:hover:border-[#fff] hover:border-black dark:border-[#5e5454] rounded-md font-[400] border p-3 text-[16px]"
               >
@@ -254,7 +258,7 @@ const Home = () => {
                     {e.title}
                   </div>
                 </div>
-              </div>
+              </Link>
             );
           })}
           {loader || comsData == [] ? (
@@ -278,7 +282,7 @@ const Home = () => {
         <div className="text-[20px] font-bold text-center py-2">Todos</div>
         {todosData.map((e) => {
           return (
-            <div key={e.id} className="py-2 flex gap-3">
+            <Link to={`/todos/${e.id}`} key={e.id} className="py-2 flex gap-3">
               <input type="checkbox" checked={e.completed} />
               <div
                 style={
@@ -289,7 +293,7 @@ const Home = () => {
               >
                 {e.title}
               </div>
-            </div>
+            </Link>
           );
         })}
 
@@ -314,7 +318,8 @@ const Home = () => {
         <div className="flex flex-col gap-2">
           {usersData.map((e) => {
             return (
-              <div
+              <Link
+                to={`/users/${e.id}`}
                 key={e.id}
                 className="flex gap-[20px] max-w-full items-center duration-300 dark:hover:border-[#fff] hover:border-black dark:border-[#5e5454] rounded-md font-[400] border p-3 text-[16px]"
               >
@@ -330,7 +335,7 @@ const Home = () => {
                     </div>
                   </div>
                 </div>
-              </div>
+              </Link>
             );
           })}
           {loader || usersData == [] ? (

@@ -20,6 +20,8 @@ const Pagination = ({ length }) => {
   });
 
   function handleChange(event, value) {
+    console.log(value);
+
     disputch(change(value));
   }
   return (

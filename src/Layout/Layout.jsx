@@ -26,6 +26,12 @@ const Layout = () => {
     setToggle(!toggle);
   }
 
+  let root = window.document.documentElement;
+  if (toggle) {
+    root.classList.add("noScroll");
+  } else {
+    root.classList.remove("noScroll");
+  }
   useEffect(() => {
     if (toggle) {
       setTimeout(() => {
