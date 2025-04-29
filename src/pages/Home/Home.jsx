@@ -3,8 +3,11 @@ import React, { useEffect, useState } from "react";
 import Button from "@mui/material/Button";
 import Loader from "../../Component/Skeleton";
 import { Link } from "react-router-dom";
-import { blue } from "@mui/material/colors";
+import { useDispatch } from "react-redux";
+import { setLink } from "../../reducer/backL";
 const Home = () => {
+  let dispatch = useDispatch();
+
   let [postData, setPostData] = useState([]);
   let [loader, setLoader] = useState(false);
 
@@ -152,10 +155,15 @@ const Home = () => {
     <div className="px-[20px] section">
       <div className="sec1">
         <div className="text-[20px] font-bold text-center py-2">Posts</div>
-        <div className="flex flex-col">
+        <div className="flex flex-col gap-2">
           {postData.map((e) => {
             return (
-              <Link to={`/posts/${e.id}`} key={e.id} className="underline">
+              <Link
+                onClick={() => dispatch(setLink("/"))}
+                to={`/posts/${e.id}`}
+                key={e.id}
+                className="underline text-[17px] hover:text-[#4192df]"
+              >
                 {e.title}
               </Link>
             );
@@ -180,10 +188,15 @@ const Home = () => {
       </div>
       <div className="sec2">
         <div className="text-[20px] font-bold text-center py-2">Albums</div>
-        <div className="flex flex-col">
+        <div className="flex flex-col gap-2">
           {AlbData.map((e) => {
             return (
-              <Link to={`/albums/${e.id}`} key={e.id} className="underline">
+              <Link
+                onClick={() => dispatch(setLink("/"))}
+                to={`/albums/${e.id}`}
+                key={e.id}
+                className="underline text-[17px] hover:text-[#4192df]"
+              >
                 {e.title}
               </Link>
             );
@@ -212,6 +225,7 @@ const Home = () => {
           {comsData.map((e) => {
             return (
               <Link
+                onClick={() => dispatch(setLink("/"))}
                 to={`/comments/${e.id}`}
                 key={e.id}
                 className="flex duration-300 dark:hover:border-[#fff] hover:border-black dark:border-[#5e5454] flex-col rounded-md font-[400] border p-3 text-[16px]"
@@ -244,6 +258,7 @@ const Home = () => {
           {photosData.map((e) => {
             return (
               <Link
+                onClick={() => dispatch(setLink("/"))}
                 to={`/photos/${e.id}`}
                 key={e.id}
                 className="flex gap-[20px] max-w-full items-center duration-300 dark:hover:border-[#fff] hover:border-black dark:border-[#5e5454] rounded-md font-[400] border p-3 text-[16px]"
@@ -282,12 +297,16 @@ const Home = () => {
         <div className="text-[20px] font-bold text-center py-2">Todos</div>
         {todosData.map((e) => {
           return (
-            <Link to={`/todos/${e.id}`} key={e.id} className="py-2 flex gap-3">
+            <Link
+              to={`/todos/${e.id}`}
+              key={e.id}
+              className="py-2 flex text-[17px] hover:text-[#4192df] gap-3 "
+            >
               <input type="checkbox" checked={e.completed} />
               <div
                 style={
                   e.completed
-                    ? { textDecoration: "line-through", color: "#2c2ce3" }
+                    ? { textDecoration: "line-through", color: "#4192df" }
                     : { textDecoration: "none" }
                 }
               >

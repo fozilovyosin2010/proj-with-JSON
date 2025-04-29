@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link, Links, Outlet, useParams } from "react-router-dom";
 import Switcher from "../Component/Switcher";
-import Loader from "../Component/Skeleton";
 
 const Layout = () => {
   let links = ["Posts", "Albums", "Comments", "Photos", "Todos", "Users"];
@@ -103,7 +102,7 @@ const Layout = () => {
             className="w-full  z-10 min-h-[100vh] overflow-hidden fixed left-0   "
           >
             <div ref={toggleFlow} className=" section  flow-up duration-300">
-              <div className="absolute border-b-[2px] backdrop-blur-[10px]  dark:bg-[#00000063] top-0 left-0 w-full section px-2 flex flex-col bg-[#ffffff5b] font-medium">
+              <div className="absolute border-b backdrop-blur-[10px]  dark:bg-[#00000063] top-0 left-0 w-full section px-2 flex flex-col bg-[#ffffff5b] font-medium">
                 {links.map((e, i) => {
                   return (
                     <Link

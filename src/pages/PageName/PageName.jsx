@@ -1,6 +1,6 @@
 import React from "react";
 
-import { useLocation, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
@@ -18,6 +18,7 @@ import Skeleton2 from "../../Component/Skeleton";
 import Pagination from "../../Component/Pagination";
 import { useDispatch, useSelector } from "react-redux";
 import { change } from "../../reducer/pageF";
+import { setLink } from "../../reducer/backL";
 
 const PageName = () => {
   let params = useParams();
@@ -171,7 +172,7 @@ const PageName = () => {
   }, [pageNum, val]);
 
   return (
-    <div className="section m-[0_auto] p-[10px_30px]">
+    <div className="section m-[0_auto] p-[10px_30px] max-sm:px-2">
       <ThemeProvider theme={darkTheme}>
         {not4Mod ? null : (
           <Box
@@ -229,12 +230,14 @@ const PageName = () => {
                     .slice(pageNum * val - val, pageNum * val)
                     .map((e) => {
                       return (
-                        <div
+                        <Link
+                          to={`/${params.page}/${e.id}`}
+                          onClick={() => dispatch(setLink(`/${params.page}`))}
                           key={e.id}
                           className="underline text-[17px] hover:text-[#4192df]"
                         >
                           {e.title}
-                        </div>
+                        </Link>
                       );
                     })
                 : params.page == "comments"
@@ -242,13 +245,15 @@ const PageName = () => {
                     .slice(pageNum * val - val, pageNum * val)
                     .map((e) => {
                       return (
-                        <div
+                        <Link
+                          to={`/${params.page}/${e.id}`}
+                          onClick={() => dispatch(setLink(`/${params.page}`))}
                           key={e.id}
                           className="flex flex-col duration-300 dark:hover:border-[#fff] hover:border-black dark:border-[#5e5454]  rounded-md font-[400] border p-3 text-[16px]"
                         >
                           <div>{e.name}</div>
                           <div>{e.email}</div>
-                        </div>
+                        </Link>
                       );
                     })
                 : params.page == "photos" || params.page == "users"
@@ -256,7 +261,9 @@ const PageName = () => {
                     .slice(pageNum * val - val, pageNum * val)
                     .map((e) => {
                       return (
-                        <div
+                        <Link
+                          to={`/${params.page}/${e.id}`}
+                          onClick={() => dispatch(setLink(`/${params.page}`))}
                           key={e.id}
                           className="flex gap-[20px] max-w-full items-center duration-300 dark:hover:border-[#fff] hover:border-black dark:border-[#5e5454] rounded-md font-[400] border p-3 text-[16px]"
                         >
@@ -284,7 +291,7 @@ const PageName = () => {
                               </div>
                             )}
                           </div>
-                        </div>
+                        </Link>
                       );
                     })
                 : params.page == "todos"
@@ -292,7 +299,12 @@ const PageName = () => {
                     .slice(pageNum * val - val, pageNum * val)
                     .map((e) => {
                       return (
-                        <div key={e.id} className="py-2 flex gap-3">
+                        <Link
+                          to={`/${params.page}/${e.id}`}
+                          onClick={() => dispatch(setLink(`/${params.page}`))}
+                          key={e.id}
+                          className="py-2 flex gap-3  hover:text-[#4192df]"
+                        >
                           <input
                             readOnly
                             type="checkbox"
@@ -310,7 +322,7 @@ const PageName = () => {
                           >
                             {e.title}
                           </div>
-                        </div>
+                        </Link>
                       );
                     })
                 : null}
@@ -447,7 +459,7 @@ const PageName = () => {
           </div>
         ) : null}
         {loader ? null : (
-          <div className="mt-[20px] flex justify-center">
+          <div className="mt-[20px] flex justify-center max-w-full">
             {not4Mod ? null : <Pagination length={Math.ceil(dataLnum / val)} />}
           </div>
         )}
