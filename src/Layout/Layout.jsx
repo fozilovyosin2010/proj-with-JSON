@@ -65,7 +65,7 @@ const Layout = () => {
             {links.map((e, i) => {
               return (
                 <Link
-                  className="relative after:content-[''] after:w-full after:h-[2px] dark:after:bg-[#fff] after:bg-black after:absolute after:left-0 after:bottom-[-5px] after:duration-[0.3s] after:scale-x-[0] hover:after:scale-x-[1]"
+                  className="relative  text-[15px] after:content-[''] after:w-full after:h-[2px] dark:after:bg-[#fff] after:bg-black after:absolute after:left-0 after:bottom-[-5px] after:duration-[0.3s] after:scale-x-[0] hover:after:scale-x-[1]"
                   key={i}
                   to={`${e.toLowerCase()}`}
                 >
@@ -132,6 +132,7 @@ const Layout = () => {
           created by
         </div>
         <a
+          target="_blank"
           href="https://fozilovyosinportfolio.netlify.app/"
           className="font-medium"
         >

@@ -175,49 +175,52 @@ const PageName = () => {
     <div className="section m-[0_auto] p-[10px_30px] max-sm:px-2">
       <ThemeProvider theme={darkTheme}>
         {not4Mod ? null : (
-          <Box
-            sx={{ maxWidth: "100%" }}
-            className="flex justify-between items-center"
-          >
-            <TextField
-              onChange={(e) => inpChange(e.target.value)}
-              fullWidth
-              label="query"
-              id="fullWidth"
-              size="small"
-            />
-            {params.page !== "users" ? (
-              <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
-                <InputLabel id="demo-select-small-label">Items</InputLabel>
-                <Select
-                  labelId="demo-select-small-label"
-                  id="demo-select-small"
-                  value={val}
-                  label="items"
-                  onChange={handleChangeVal}
-                >
-                  <MenuItem value={10}>10</MenuItem>
-                  <MenuItem value={20}>20</MenuItem>
-                  <MenuItem value={30}>30</MenuItem>
-                </Select>
-              </FormControl>
-            ) : null}
-            {params.page == "todos" ? (
-              <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
-                <InputLabel id="demo-select-small-label">Completed</InputLabel>
-                <Select
-                  labelId="demo-select-small-label"
-                  id="demo-select-small"
-                  value={checkVal}
-                  label="items"
-                  onChange={handleChangeCheckVal}
-                >
-                  <MenuItem value={"All"}>All</MenuItem>
-                  <MenuItem value={true}>True</MenuItem>
-                  <MenuItem value={false}>False</MenuItem>
-                </Select>
-              </FormControl>
-            ) : null}
+          <Box sx={{ maxWidth: "100%" }}>
+            <div className="flex gap-1  justify-between items-center">
+              <TextField
+                onChange={(e) => inpChange(e.target.value)}
+                fullWidth
+                label="query"
+                id="fullWidth"
+                size="small"
+              />
+              <div className="flex justify-center">
+                {params.page !== "users" ? (
+                  <FormControl sx={{ m: 1, minWidth: 100 }} size="small">
+                    <InputLabel id="demo-select-small-label">Items</InputLabel>
+                    <Select
+                      labelId="demo-select-small-label"
+                      id="demo-select-small"
+                      value={val}
+                      label="items"
+                      onChange={handleChangeVal}
+                    >
+                      <MenuItem value={10}>10</MenuItem>
+                      <MenuItem value={20}>20</MenuItem>
+                      <MenuItem value={30}>30</MenuItem>
+                    </Select>
+                  </FormControl>
+                ) : null}
+                {params.page == "todos" ? (
+                  <FormControl sx={{ m: 1, minWidth: 100 }} size="small">
+                    <InputLabel id="demo-select-small-label">
+                      Complete
+                    </InputLabel>
+                    <Select
+                      labelId="demo-select-small-label"
+                      id="demo-select-small"
+                      value={checkVal}
+                      label="items"
+                      onChange={handleChangeCheckVal}
+                    >
+                      <MenuItem value={"All"}>All</MenuItem>
+                      <MenuItem value={true}>True</MenuItem>
+                      <MenuItem value={false}>False</MenuItem>
+                    </Select>
+                  </FormControl>
+                ) : null}
+              </div>
+            </div>
           </Box>
         )}
       </ThemeProvider>

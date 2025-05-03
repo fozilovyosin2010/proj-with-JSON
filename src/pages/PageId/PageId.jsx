@@ -3,25 +3,27 @@ import React, { useEffect, useState } from "react";
 import { Link, useLocation, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Button } from "@mui/material";
+import Skeleton2 from "../../Component/Skeleton";
 
 const PageId = () => {
-  let location = useLocation();
   let params = useParams();
 
   let [pageIdData, setPageIdData] = useState([]);
+  let [loader, setLoader] = useState(false);
 
   // {params.page} {params.id}
 
   let getParamsId = async () => {
+    setLoader(true);
     try {
       let { data } = await axios.get(
         `https://jsonplaceholder.typicode.com/${params.page}/${params.id}`
       );
-      console.log(showKeys(params.page, data));
-
       setPageIdData(showKeys(params.page, data));
+      setLoader(false);
     } catch (error) {
       console.error(error);
+      setLoader(false);
     }
   };
 
@@ -43,21 +45,29 @@ const PageId = () => {
         return e[0];
       });
 
-    if (page == "/users") {
+    if (page == "users") {
       let addressData = Object.values(Object.values(obj)[4]);
 
       return Object.entries(obj)
         .filter((e, i) => {
           if (i == 4) {
-            e[1] = [addressData[0], addressData[2]];
+            e[1] = [addressData[0], addressData[2]].join(", ");
           }
           return !findId.includes(e[0]);
         })
         .slice(0, 6);
     } else {
-      return Object.entries(obj).filter((e) => {
-        return !findId.includes(e[0]);
-      });
+      if (page == "todos") {
+        return Object.entries(obj)
+          .filter((e) => {
+            return !findId.includes(e[0]);
+          })
+          .toReversed();
+      } else {
+        return Object.entries(obj).filter((e) => {
+          return !findId.includes(e[0]);
+        });
+      }
     }
   }
   let backl = useSelector((e) => e.backL.val);
@@ -86,36 +96,101 @@ const PageId = () => {
           </span>
         </Button>
       </Link>
+
       <div className="pt-[20px]">
-        {pageIdData.map((e, i) => {
-          if (params.page == "posts" || params.page == "albums") {
-            return (
-              <div key={i} className="flex justify-center text-[16px]">
-                <div
-                  style={
-                    i == 0
-                      ? {
-                          fontWeight: "600",
-                          fontSize: "18px",
-                          textAlign: "center",
-                        }
-                      : null
-                  }
-                >
-                  {e[1]}
-                </div>
-              </div>
-            );
-            // if (params.page == "comments")
-          } else {
-            return (
-              <div key={i} className="flex flex-col gap-2">
-                {e[0]}
-                {/* {params.page == "users" ? `${e[0]}: ` : null} {e[1]} */}
-              </div>
-            );
+        {loader && params.page == "posts" ? (
+          <div>
+            <Skeleton2 type={"caption"} width={true} center={true} />
+            <Skeleton2 type={"body1"} />
+          </div>
+        ) : (loader && params.page == "albums") ||
+          (loader && params.page == "photos") ||
+          (loader && params.page == "todos") ? (
+          <Skeleton2 type={"caption"} center={true} />
+        ) : (loader && params.page == "comments") ||
+          (loader && params.page == "users") ? (
+          <div>
+            <Skeleton2 type={"body1"} width={true} />
+            <Skeleton2 type={"body1"} width={true} />
+            <Skeleton2 type={"body1"} width={true} />
+            <Skeleton2 type={"body1"} width={true} />
+          </div>
+        ) : null}
+        <div
+          style={
+            params.page == "todos"
+              ? { display: "flex", gap: "8px", justifyContent: "center" }
+              : null
           }
-        })}
+        >
+          {pageIdData.map((e, i) => {
+            if (
+              params.page == "posts" ||
+              params.page == "albums" ||
+              params.page == "photos"
+            ) {
+              return (
+                <div key={i} className="flex justify-center text-[16px]">
+                  <div
+                    style={
+                      i == 0
+                        ? {
+                            fontWeight: "600",
+                            fontSize: "18px",
+                            textAlign: "center",
+                          }
+                        : null
+                    }
+                  >
+                    {e[1]}
+                  </div>
+                </div>
+              );
+            } else if (params.page == "comments" || params.page == "users") {
+              return (
+                <div key={i} className="flex  gap-2">
+                  <div>{e[0]}:</div>
+
+                  <div className="font-medium">
+                    {e[0] == "website" ? (
+                      <a
+                        target="_blank"
+                        href={`http://${e[1]}`}
+                        style={
+                          e[0] == "website"
+                            ? { textDecoration: "underline" }
+                            : null
+                        }
+                      >
+                        {e[0] == "username" ? `@${e[1]}` : e[1]}
+                      </a>
+                    ) : (
+                      <div>
+                        {e[0] == "username"
+                          ? `@${e[1]}`
+                          : e[0] == "phone"
+                          ? `+${e[1]}`
+                          : e[1]}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              );
+            } else {
+              return (
+                <div className="flex items-center">
+                  {e[0] == "completed" ? (
+                    <input key={i} type="checkbox" checked={e[1]} />
+                  ) : (
+                    <div key={i} className="text-[18px] font-medium">
+                      {e[1]}
+                    </div>
+                  )}
+                </div>
+              );
+            }
+          })}
+        </div>
       </div>
     </div>
   );
