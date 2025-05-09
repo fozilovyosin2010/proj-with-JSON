@@ -44,6 +44,14 @@ const Layout = () => {
       }, 100);
     }
   }, [toggle]);
+
+  let [showBtn, setShowBtn] = useState(false);
+
+  useEffect(() => {
+    window.onscroll = () => {
+      window.scrollY > 400 ? setShowBtn(true) : setShowBtn(false);
+    };
+  }, []);
   return (
     <div className="min-h-screen flex flex-col dark:bg-[#000000] dark:text-[#fff]">
       <div className="header sticky top-0 duration-300 backdrop-blur-[10px]  z-20  text-[16px] font-medium border-b-[1px] border-b-[#ccc] dark:bg-[#00000038] p-2 dark:text-[#fff]">
@@ -126,6 +134,15 @@ const Layout = () => {
         ) : null}
         <Outlet />
       </main>
+
+      {showBtn ? (
+        <button
+          onClick={() => window.scroll(0, 0)}
+          className="w-[40px] h-[40px] border fixed bottom-[20px] rounded-[12px] dark:bg-[#fff] dark:text-black bg-black text-[#fff] flex items-center justify-center right-[30px]"
+        >
+          <i className="bx bx-chevron-up text-[22px]"></i>
+        </button>
+      ) : null}
 
       <div className="footer flex justify-center gap-2 w-full border-t p-2">
         <div className="text-[#818080cb] dark:text-[#ccc] font-medium">
